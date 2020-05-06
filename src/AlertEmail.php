@@ -30,8 +30,8 @@ class AlertEmail extends Mailable implements ShouldQueue
     public function build()
     {
         try {
-            return $this->markdown('pdeio.redis-driver-fallback-email-template.alert')->with(['now' => Carbon::now()]);
-        } catch (\Exception $e) {
+            return $this->subject('Redis Cache Driver fails')->markdown('pdeio.redis-driver-fallback-email-template.alert')->with(['now' => Carbon::now()]);
+        } catch (\Swift_TransportException $e) {
             if (config('redis-driver-fallback.email_config.catch_error', false)) {
                 $error = 'the view pdeio.redis-driver-fallback-email-template.alert not exists, please run php artisan vendor:publish --provider="Pdeio\RedisDriverFallback\RedisDriverServiceProvider"' . $e;
                 $contents = \Storage::get('redis/mails_error.log');
