@@ -103,8 +103,7 @@ class RedisDriverFallback extends CacheManager
     {
         try {
             \Illuminate\Support\Facades\Mail::to(config('redis-driver-fallback.email_config.to', config('mail.username')))
-                ->send(new AlertEmail())
-                ->subject('Redis Cache Driver fails');
+                ->send(new AlertEmail());
         } catch (\Exception $e) {
             if (config('redis-driver-fallback.email_config.catch_error', false)) {
                 $error = 'Cannot send an alert email, with the pdeio/redis-driver-fallback package. (' . \Carbon\Carbon::now() . ') \n' . $e;
